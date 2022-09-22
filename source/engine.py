@@ -2,7 +2,7 @@ import json
 import moderngl
 import pygame
 
-from .model import Triangle
+from .model import Cube
 
 
 class Engine:
@@ -37,7 +37,8 @@ class Engine:
         self.clock = pygame.time.Clock()
 
         # Scene
-        self.scene = Triangle(self.ctx)
+        # self.scene = Triangle(self.ctx)
+        self.scene = Cube(self.ctx)
 
     def check_events(self):
         for event in pygame.event.get():
