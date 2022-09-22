@@ -1,18 +1,41 @@
-import moderngl
+import glm
 import numpy as np
 
-from moderngl.context import Context
+
+from source.engine import Engine
 
 
 class Triangle:
-    def __init__(self, context: Context):
-        # self.app = app
-        self.ctx = context
+    def __init__(self, app: Engine):
+        self.app = app
+        self.ctx = self.app.ctx
+        self.camera = self.app.camera
         self.vbo = self.get_vbo()
         self.shader_program = self.get_shader_program(
             "default.vert", "default.frag"
         )
         self.vao = self.get_vao()
+
+        self.shader_program['projection_matrix'].write(
+            self.camera.projection_matrix
+        )
+        self.shader_program['view_matrix'].write(
+            self.camera.view_matrix
+        )
+
+        self.model_matrix = self.get_model_matrix()
+        self.shader_program['model_matrix'].write(
+            self.model_matrix
+        )
+
+    def get_model_matrix(self):
+        return glm.mat4()
+
+    def update(self):
+        model_matrix = glm.rotate(
+            self.model_matrix, self.app.time, glm.vec3(0.0, 1.0, 0.0)
+        )
+        self.shader_program['model_matrix'].write(model_matrix)
 
     def render(self):
         self.vao.render()
@@ -52,16 +75,39 @@ class Triangle:
 
 
 class Cube:
-    def __init__(self, context: Context):
-        # self.app = app
-        self.ctx = context
+    def __init__(self, app: Engine):
+        self.app = app
+        self.ctx = self.app.ctx
+        self.camera = self.app.camera
         self.vbo = self.get_vbo()
         self.shader_program = self.get_shader_program(
             "default.vert", "default.frag"
         )
         self.vao = self.get_vao()
 
+        self.shader_program['projection_matrix'].write(
+            self.camera.projection_matrix
+        )
+        self.shader_program['view_matrix'].write(
+            self.camera.view_matrix
+        )
+
+        self.model_matrix = self.get_model_matrix()
+        self.shader_program['model_matrix'].write(
+            self.model_matrix
+        )
+
+    def get_model_matrix(self):
+        return glm.mat4()
+
+    def update(self):
+        model_matrix = glm.rotate(
+            self.model_matrix, self.app.time, glm.vec3(0.0, 1.0, 0.0)
+        )
+        self.shader_program['model_matrix'].write(model_matrix)
+
     def render(self):
+        self.update()
         self.vao.render()
 
     def destroy(self):

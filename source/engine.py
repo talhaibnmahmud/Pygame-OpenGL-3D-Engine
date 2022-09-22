@@ -1,8 +1,9 @@
 import json
+from typing import Any
 import moderngl
 import pygame
 
-from .model import Cube
+from source.camera import Camera
 
 
 class Engine:
@@ -33,12 +34,22 @@ class Engine:
         # Create ModernGL Context
         self.ctx = moderngl.create_context()
 
+        self.time = 0.0
         # Create a clock to limit the framerate
         self.clock = pygame.time.Clock()
 
+        # Create a camera
+        self.camera = Camera(self.WINDOW_SIZE)
+
+        # self.set_scene()
+
+    def set_scene(self, scene: Any):
         # Scene
-        # self.scene = Triangle(self.ctx)
-        self.scene = Cube(self.ctx)
+        # self.scene = scene
+        self.scene = scene
+
+    def get_time(self):
+        self.time = pygame.time.get_ticks() / 1000.0
 
     def check_events(self):
         for event in pygame.event.get():
@@ -62,6 +73,7 @@ class Engine:
         print(json.dumps(self.ctx.info, indent=2))
 
         while True:
+            self.get_time()
             self.check_events()
             self.render()
             self.clock.tick(60)
