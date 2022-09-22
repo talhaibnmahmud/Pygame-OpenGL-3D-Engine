@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "slevesque.shader",
+    "ms-python.python",
+    "ms-python.vscode-pylance"
+  ]
+}
