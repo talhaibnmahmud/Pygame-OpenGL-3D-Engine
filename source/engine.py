@@ -1,5 +1,8 @@
+import json
 import moderngl
 import pygame
+
+from .model import Triangle
 
 
 class Engine:
@@ -33,9 +36,13 @@ class Engine:
         # Create a clock to limit the framerate
         self.clock = pygame.time.Clock()
 
+        # Scene
+        self.scene = Triangle(self.ctx)
+
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                self.scene.destroy()
                 pygame.quit()
                 exit()
 
@@ -43,10 +50,16 @@ class Engine:
         # Clear the framebuffer
         self.ctx.clear(0.08, 0.16, 0.16)
 
+        # Render the scene
+        self.scene.render()
+
         # Swap the buffers
         pygame.display.flip()
 
     def run(self):
+        # Print OpenGL Version
+        print(json.dumps(self.ctx.info, indent=2))
+
         while True:
             self.check_events()
             self.render()
