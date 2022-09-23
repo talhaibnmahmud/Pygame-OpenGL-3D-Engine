@@ -33,6 +33,9 @@ class Engine:
 
         # Create ModernGL Context
         self.ctx = moderngl.create_context()
+        # Enable depth test and face culling
+        self.ctx.front_face = 'cw'
+        self.ctx.enable(moderngl.DEPTH_TEST | moderngl.CULL_FACE)
 
         self.time = 0.0
         # Create a clock to limit the framerate

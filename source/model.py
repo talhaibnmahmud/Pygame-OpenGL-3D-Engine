@@ -118,7 +118,7 @@ class Cube:
     def get_vao(self):
         return self.ctx.vertex_array(
             self.shader_program,
-            [(self.vbo, '3f', 'in_position')],
+            [(self.vbo, '2f 3f', 'in_text_coord_0', 'in_position')],
         )
 
     def get_vertex_data(self):
@@ -138,9 +138,27 @@ class Cube:
             (0, 4, 1), (1, 4, 5),  # bottom
         ]
 
-        return np.array([
+        # Texture coordinates
+        tex_coords = [(0, 0), (1, 0), (1, 1), (0, 1)]
+        tex_coord_indices = [
+            (0, 1, 2), (0, 2, 3),  # front
+            (1, 0, 2), (2, 0, 3),  # back
+            (0, 1, 2), (0, 2, 3),  # bottom (done)
+            (3, 2, 1), (3, 1, 0),  # TODO: top
+            (0, 1, 2), (0, 2, 3),  # top
+            (1, 0, 2), (2, 0, 3),  # bottom
+        ]
+
+        # Texture coordinate data
+        tex_coord_data = np.array(
+            [tex_coords[i] for j in tex_coord_indices for i in j], dtype='f4'
+        )
+
+        vertex_data = np.array([
             vertices[i] for triangle in indices for i in triangle  # flatten
         ], dtype='f4')
+
+        return np.hstack([tex_coord_data, vertex_data])
 
     def get_vbo(self):
         return self.ctx.buffer(self.get_vertex_data())
