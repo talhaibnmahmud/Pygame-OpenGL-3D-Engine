@@ -33,8 +33,9 @@ class Engine:
 
         # Create ModernGL Context
         self.ctx = moderngl.create_context()
-        # Enable depth test and face culling
+        # Set the front face to clockwise
         self.ctx.front_face = 'cw'
+        # Enable depth test and face culling
         self.ctx.enable(moderngl.DEPTH_TEST | moderngl.CULL_FACE)
 
         self.time = 0.0

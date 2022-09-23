@@ -87,11 +87,11 @@ class Cube:
         self.vao = self.get_vao()
 
         # Load texture
-        self.texture = self.get_texture("source/textures/test.png")
+        # self.texture = self.get_texture("source/textures/test.png")
 
-        # Set texture
-        self.shader_program['texture_0'] = 0
-        self.texture.use()
+        # # Set texture
+        # self.shader_program['texture_0'] = 0
+        # self.texture.use()
 
         self.shader_program['projection_matrix'].write(
             self.camera.projection_matrix
@@ -155,14 +155,13 @@ class Cube:
         # Texture coordinates
         tex_coords = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
-        # TODO: Fix the indices
         tex_coord_indices = [
-            (0, 1, 2), (0, 2, 3),  # front
-            (1, 0, 2), (2, 0, 3),  # back
+            (0, 3, 2), (0, 2, 1),  # back (done)
+            (1, 0, 2), (2, 0, 3),  # front (done)
             (0, 1, 2), (0, 2, 3),  # bottom (done)
-            (3, 2, 1), (3, 1, 0),  # TODO: top
-            (0, 1, 2), (0, 2, 3),  # top
-            (1, 0, 2), (2, 0, 3),  # bottom
+            (2, 1, 3), (1, 0, 3),  # top (done)
+            (0, 3, 2), (0, 2, 1),  # left (done)
+            (1, 0, 2), (2, 0, 3),  # right (done)
         ]
 
         # Texture coordinate data
