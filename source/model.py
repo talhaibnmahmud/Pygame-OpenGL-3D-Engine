@@ -1,5 +1,6 @@
 import glm
 import numpy as np
+import pygame
 
 
 from source.engine import Engine
@@ -85,6 +86,13 @@ class Cube:
         )
         self.vao = self.get_vao()
 
+        # Load texture
+        self.texture = self.get_texture("source/textures/test.png")
+
+        # Set texture
+        self.shader_program['texture_0'] = 0
+        self.texture.use()
+
         self.shader_program['projection_matrix'].write(
             self.camera.projection_matrix
         )
@@ -97,12 +105,18 @@ class Cube:
             self.model_matrix
         )
 
+    def get_texture(self, path: str):
+        texture = pygame.image.load(path).convert()
+        texture = pygame.transform.flip(texture, False, True)
+        texture_data = pygame.image.tostring(texture, "RGB")
+        return self.ctx.texture(texture.get_size(), 3, texture_data)
+
     def get_model_matrix(self):
         return glm.mat4()
 
     def update(self):
         model_matrix = glm.rotate(
-            self.model_matrix, self.app.time, glm.vec3(0.0, 1.0, 0.0)
+            self.model_matrix, self.app.time * 0.5, glm.vec3(0.0, 1.0, 0.0)
         )
         self.shader_program['model_matrix'].write(model_matrix)
 
@@ -140,6 +154,8 @@ class Cube:
 
         # Texture coordinates
         tex_coords = [(0, 0), (1, 0), (1, 1), (0, 1)]
+
+        # TODO: Fix the indices
         tex_coord_indices = [
             (0, 1, 2), (0, 2, 3),  # front
             (1, 0, 2), (2, 0, 3),  # back
