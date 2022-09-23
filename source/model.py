@@ -87,7 +87,7 @@ class Cube:
         self.vao = self.get_vao()
 
         # Load texture
-        self.texture = self.get_texture("source/textures/test.png")
+        self.texture = self.get_texture("assets/textures/wood.png")
 
         # Set texture
         self.shader_program['texture_0'] = 0
