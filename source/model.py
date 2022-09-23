@@ -119,6 +119,10 @@ class Cube:
         )
         self.shader_program['model_matrix'].write(model_matrix)
 
+        self.shader_program['view_matrix'].write(
+            self.camera.view_matrix
+        )
+
     def render(self):
         self.update()
         self.vao.render()

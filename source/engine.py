@@ -4,8 +4,6 @@ from typing import Any
 import moderngl
 import pygame
 
-from source.camera import Camera
-
 
 class Engine:
     def __init__(self, window_size: tuple[int, int] = (800, 600), window_title: str = "ModernGL", gl_version: tuple[int, int] = (3, 3)):
@@ -32,6 +30,10 @@ class Engine:
             self.WINDOW_SIZE, pygame.OPENGL | pygame.DOUBLEBUF
         )
 
+        # Mouse settings
+        pygame.event.set_grab(True)
+        pygame.mouse.set_visible(False)
+
         # Create ModernGL Context
         self.ctx = moderngl.create_context()
         # Set the front face to clockwise
@@ -40,17 +42,20 @@ class Engine:
         self.ctx.enable(moderngl.DEPTH_TEST | moderngl.CULL_FACE)
 
         self.time = 0.0
+        self.delta_time = 0.0
         # Create a clock to limit the framerate
         self.clock = pygame.time.Clock()
 
         # Create a camera
-        self.camera = Camera(self.WINDOW_SIZE)
+        # self.camera = Camera(self)
 
         # self.set_scene()
 
+    def set_camera(self, camera: Any):
+        self.camera = camera
+
     def set_scene(self, scene: Any):
         # Scene
-        # self.scene = scene
         self.scene = scene
 
     def get_time(self):
@@ -80,5 +85,6 @@ class Engine:
         while True:
             self.get_time()
             self.check_events()
+            self.camera.update()
             self.render()
-            self.clock.tick(60)
+            self.delta_time = self.clock.tick(60)
