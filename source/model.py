@@ -87,11 +87,11 @@ class Cube:
         self.vao = self.get_vao()
 
         # Load texture
-        # self.texture = self.get_texture("source/textures/test.png")
+        self.texture = self.get_texture("source/textures/test.png")
 
-        # # Set texture
-        # self.shader_program['texture_0'] = 0
-        # self.texture.use()
+        # Set texture
+        self.shader_program['texture_0'] = 0
+        self.texture.use()
 
         self.shader_program['projection_matrix'].write(
             self.camera.projection_matrix
