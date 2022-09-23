@@ -2,7 +2,6 @@ import glm
 import numpy as np
 import pygame
 
-
 from source.engine import Engine
 
 

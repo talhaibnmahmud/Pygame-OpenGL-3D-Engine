@@ -1,6 +1,5 @@
 import glm
 
-
 FOV = 45.0
 NEAR = 0.1
 FAR = 100.0
